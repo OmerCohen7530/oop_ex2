@@ -13,6 +13,7 @@ def main():
     u4 = network.sign_up("David", "pass4")
     u5 = network.sign_up("Eve", "pass5")
 
+    # print(network)
     # Creating followers
     u1.follow(u2)
     u1.follow(u5)
@@ -35,7 +36,7 @@ def main():
 
     # Creating sale post
     p3 = u3.publish_post("Sale", "Toyota prius 2012", 42000, "Haifa")
-
+    # network.log_out("Alice")
     # Creating likes and comments
     p2.like(u4)
     p1.like(u4)
@@ -93,7 +94,6 @@ def main():
     # Printing all notifications received by a certain user
     u4.print_notifications()
     print()
-
     # Network printing
     print(network, end='')
 

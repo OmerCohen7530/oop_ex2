@@ -30,6 +30,7 @@ class ImagePost(Post):
         image = mpimg.imread(self.info)
         plt.imshow(image)
         plt.show()
+        print("Shows picture")
         pass
 
 
@@ -52,14 +53,24 @@ class SalePost(Post):
         return s
 
     def discount(self, percent, password):
-        if password == self.owner.password:
-            self._price = self._price * (1 - percent / 100)
-            print(f"Discount on {self.owner.name} product! the new price is {self._price}")
+        if self.owner.connected:
+            if password == self.owner.password:
+                self._price = self._price * (1 - percent / 100)
+                print(f"Discount on {self.owner.name} product! the new price is: {self._price}")
+            else:
+                raise Exception("wrong password")
+        else:
+            raise Exception("user is not connected")
 
     def sold(self, password):
-        if password == self.owner.password:
-            self._is_sold = True
-            print(f"{self.owner.name}'s product is sold")
+        if self.owner.connected:
+            if password == self.owner.password:
+                self._is_sold = True
+                print(f"{self.owner.name}'s product is sold")
+            else:
+                raise Exception("wrong password")
+        else:
+            raise Exception("user is not connected")
 
 
 class PostFactory():

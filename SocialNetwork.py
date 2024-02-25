@@ -24,14 +24,23 @@ class SocialNetwork:
             user = User(username, password)
             self.users_list.append(user)
             return user
+        else:
+            raise Exception("password must be between 4 and 8 characters")
 
     def log_out(self, username):
+        flag = False
         for user in self.users_list:
             if user.name == username:
+                flag = True
                 user.disconnect()
-        pass
+        if not flag:
+            raise Exception("username does not exist")
 
     def log_in(self, username, password):
+        flag = False
         for user in self.users_list:
             if user.name == username:
+                flag = True
                 user.connect(password)
+        if not flag:
+            raise Exception("username does not exist")

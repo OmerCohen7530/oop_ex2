@@ -19,38 +19,59 @@ class User:
         return s
 
     def follow(self, user):
-        if self not in user.followers:
-            user.followers.append(self)
-            self.post_update()
-            print(f"{self.name} started following {user.name}")
+        if user == self:
+            raise Exception("You cannot follow yourself")
+        if self.connected:
+            if self not in user.followers:
+                user.followers.append(self)
+                user.update_observers()
+                print(f"{self.name} started following {user.name}")
+            else:
+                raise Exception(f"User {self.name} already follow")
+        else:
+            raise Exception("user is not connected")
 
     def unfollow(self, user):
-        if self in user.followers:
-            user.followers.remove(self)
-            self.post_update()
-            print(f"{self.name} unfollowed {user.name}")
-
-    def publish_post(self,type,info, price= None, place= None):
+        if user == self:
+            raise Exception("You cannot follow yourself")
         if self.connected:
-            post_factory = PostFactory()
-            post = post_factory.create_post(self, type, info, price, place)
-            self.post_list.append(post)
-            self.post_update()
-            return post
+            if self in user.followers:
+                user.followers.remove(self)
+                user.update_observers()
+                print(f"{self.name} unfollowed {user.name}")
+            else:
+                raise Exception(f"User {self.name} already unfollow")
+        else:
+            raise Exception("user is not connected")
+
+    def publish_post(self, type, info, price= None, place= None):
+        if self.connected:
+            if self.connected:
+                post_factory = PostFactory()
+                post = post_factory.create_post(self, type, info, price, place)
+                self.post_list.append(post)
+                return post
+        else:
+            raise Exception("user is not connected")
         return None
 
-    def post_update(self):
-        for post in self.post_list:
-            post.observers = self.followers
 
     def connect(self, password):
-        if self.password == password:
-            self.connected = True
-            print(f"{self.name} connected")
+        if not self.connected:
+            if self.password == password:
+                self.connected = True
+                print(f"{self.name} connected")
+            else:
+                raise Exception("wrong password")
+        else:
+            raise Exception("user is already connected")
 
     def disconnect(self):
-        self.connected = False
-        print(f"{self.name} disconnected")
+        if self.connected:
+            self.connected = False
+            print(f"{self.name} disconnected")
+        else:
+            raise Exception("user is already disconnected")
 
     def print_notifications(self):
         print(f"{self.name}'s notifications:")
@@ -61,3 +82,7 @@ class User:
     def update(self, event):
         self.notification.append(event)
         pass
+
+    def update_observers(self):
+        for post in self.post_list:
+            post.add_remove_observer()
