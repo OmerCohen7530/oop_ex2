@@ -5,6 +5,7 @@ def main():
     # Creating the network
     network = SocialNetwork("Twitter")
     print()
+    net = SocialNetwork("Facebook")
 
     # Creating users
     u1 = network.sign_up("Alice", "pass1")
@@ -13,7 +14,8 @@ def main():
     u4 = network.sign_up("David", "pass4")
     u5 = network.sign_up("Eve", "pass5")
 
-    # print(network)
+
+
     # Creating followers
     u1.follow(u2)
     u1.follow(u5)

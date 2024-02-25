@@ -3,15 +3,18 @@ from User import User
 
 class SocialNetwork:
     _initialized = None
-    def __new__(self, name):
-        if self._initialized is None:
-            self._initialized = super().__new__(self)
-        return self._initialized
+    def __new__(cls, name):
+        if cls._initialized is None:
+            cls._initialized = super().__new__(cls)
+            cls._initialized.name = name
+            cls._initialized.users_list = []
+            print(f"The social network {name} was created!")
+        return cls._initialized
 
     def __init__(self, name):
-            self.name = name
-            self.users_list = []
-            print(f"The social network {name} was created!")
+        if not self._initialized:
+            self._initialized = True
+
 
     def __str__(self):
         s= self.name + " social network:\n"

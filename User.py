@@ -1,15 +1,18 @@
 from PostFactory import PostFactory
+from members import members
 
 
-class User:
+class User(members):
 
     def __init__(self, name, password):
+        # super().__init__(self)
+        super().__init__()
         self.name = name
         self.password = password
         self.connected = True
         self.followers = [] #everyone who follows me
-        self.post_list = []
-        self.notification=[]
+        # self.post_list = []
+        # self.notification=[]
 
 
     def __str__(self):
@@ -79,10 +82,10 @@ class User:
             print(note)
         pass
 
-    def update(self, event):
-        self.notification.append(event)
-        pass
-
-    def update_observers(self):
-        for post in self.post_list:
-            post.add_remove_observer()
+    # def update(self, event):
+    #     self.notification.append(event)
+    #     pass
+    #
+    # def update_observers(self):
+    #     for post in self.post_list:
+    #         post.add_remove_observer()
